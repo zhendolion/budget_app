@@ -44,22 +44,11 @@ def load_user(user_id):
 
 
 # Database Configuration
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budget.db'
-#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budget.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Configuration
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# Update your database configuration
-if os.environ.get('DATABASE_URL'):
-    # Use PostgreSQL for production
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-else:
-    # SQLite for development
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///budget.db'
-
+#
 # Models
 class Category(db.Model):
     __tablename__ = 'category'
