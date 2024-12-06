@@ -1,0 +1,47 @@
+/* Dropdown styling */
+.form-select {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    color: #212529;
+}
+
+.form-select option {
+    background-color: #fff;
+    color: #212529;
+    padding: 8px;
+}
+
+/* Dark mode support if needed */
+@media (prefers-color-scheme: dark) {
+    .form-select {
+        background-color: #fff;
+        color: #212529;
+        border-color: #ced4da;
+    }
+    
+    .form-select:focus {
+        border-color: #86b7fe;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+    
+    .form-select option {
+        background-color: #fff;
+        color: #212529;
+    }
+}
+
+/* Custom select styling */
+.custom-select-wrapper {
+    position: relative;
+}
+
+.form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}

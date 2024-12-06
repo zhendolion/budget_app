@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Add Transaction{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Add Transaction</h2>
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('add_transaction') }}">
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" class="form-control" id="date" name="date" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Type</label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="income">Income</option>
+                                <option value="expense">Expense</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <optgroup label="Income Categories" id="income-categories">
+                                    {% for category in income_categories %}
+                                        <option value="{{ category.id }}" data-type="income">{{ category.name }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                                <optgroup label="Expense Categories" id="expense-categories">
+                                    {% for category in expense_categories %}
+                                        <option value="{{ category.id }}" data-type="expense">{{ category.name }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="amount" class="form-label">Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Ft</span>
+                                <input type="number" class="form-control" id="amount" name="amount" step="0.01" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus-circle"></i> Add Transaction
+                            </button>
+                            <a href="{{ url_for('view_transactions') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Updated JavaScript for category filtering and date setting -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Set today's date as default
+    const dateInput = document.getElementById('date');
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    dateInput.value = formattedDate;
+
+    const typeSelect = document.getElementById('type');
+    const categorySelect = document.getElementById('category');
+    const incomeCategories = document.getElementById('income-categories');
+    const expenseCategories = document.getElementById('expense-categories');
+
+    function filterCategories() {
+        const selectedType = typeSelect.value.toLowerCase();
+        
+        // Show/hide appropriate categories
+        if (selectedType === 'income') {
+            incomeCategories.style.display = '';
+            expenseCategories.style.display = 'none';
+            // Select first income category if available
+            if (incomeCategories.querySelector('option')) {
+                categorySelect.value = incomeCategories.querySelector('option').value;
+            }
+        } else {
+            incomeCategories.style.display = 'none';
+            expenseCategories.style.display = '';
+            // Select first expense category if available
+            if (expenseCategories.querySelector('option')) {
+                categorySelect.value = expenseCategories.querySelector('option').value;
+            }
+        }
+    }
+
+    typeSelect.addEventListener('change', filterCategories);
+    filterCategories(); // Initial filter
+});
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+# Create .gitignore file
+touch .gitignore
+
+# Add these to your .gitignore file:
+__pycache__/
+*.pyc
+venv/
+.env
+*.db
+.DS_Store

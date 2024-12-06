@@ -1,0 +1,228 @@
+/* Container Styles */
+.settings-container {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+}
+
+.settings-header {
+    background: white;
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* Card Styles */
+.settings-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.settings-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+}
+
+/* Navigation Styles */
+.settings-nav .list-group-item {
+    border: none;
+    padding: 1rem 1.5rem;
+    color: #64748b;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+}
+
+.settings-nav .list-group-item:hover {
+    background-color: #f1f5f9;
+    color: #2563eb;
+}
+
+.settings-nav .list-group-item.active {
+    background-color: #2563eb;
+    color: white;
+}
+
+/* Profile Styles */
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #2563eb, #3b82f6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-right: 1.5rem;
+    box-shadow: 0 4px 12px rgba(37,99,235,0.2);
+}
+
+/* Form Styles */
+.form-floating > .form-control {
+    height: calc(3.5rem + 2px);
+    padding: 1rem 0.75rem;
+}
+
+.form-floating > .form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 0.25rem rgba(37,99,235,0.25);
+}
+
+/* Feature Icons */
+.feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.bg-primary.bg-gradient {
+    background: linear-gradient(45deg, #2563eb, #3b82f6) !important;
+}
+
+.bg-success.bg-gradient {
+    background: linear-gradient(45deg, #16a34a, #22c55e) !important;
+}
+
+.bg-danger.bg-gradient {
+    background: linear-gradient(45deg, #dc2626, #ef4444) !important;
+}
+
+/* Password Strength */
+.password-strength {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.progress {
+    height: 6px;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+}
+
+.requirements {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.requirement {
+    font-size: 0.875rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+}
+
+.requirement i {
+    font-size: 0.5rem;
+    margin-right: 0.5rem;
+    color: #cbd5e1;
+}
+
+.requirement.valid {
+    color: #16a34a;
+}
+
+.requirement.valid i {
+    color: #16a34a;
+}
+
+/* Button Styles */
+.btn-circle {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.btn-circle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    color: #2563eb;
+}
+
+.btn-lg {
+    padding: 0.8rem 1.5rem;
+    font-weight: 500;
+}
+
+/* Custom File Upload */
+.custom-file-upload {
+    position: relative;
+}
+
+.custom-file-upload input[type="file"] {
+    cursor: pointer;
+}
+
+/* Stats Cards */
+.card h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #2563eb;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .settings-nav {
+        margin-bottom: 2rem;
+    }
+    
+    .settings-nav .list-group {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+    
+    .settings-nav .list-group-item {
+        white-space: nowrap;
+        margin-right: 0.5rem;
+        margin-bottom: 0;
+    }
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tab-pane {
+    animation: slideIn 0.3s ease-out;
+}
+
+.settings-card {
+    animation: slideIn 0.3s ease-out;
+}

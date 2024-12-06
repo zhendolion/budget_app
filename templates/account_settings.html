@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Account Settings{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/account_settings.css') }}">
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/account_settings.js') }}"></script>
+{% endblock %}
+
+
+{% block content %}
+<div class="settings-container">
+    <!-- Header Section -->
+    <div class="settings-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <a href="{{ url_for('home') }}" class="btn btn-circle">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+                <div class="col">
+                    <h2 class="mb-0">Account Settings</h2>
+                    <p class="text-muted mb-0">Manage your profile and preferences</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Left Sidebar - Navigation -->
+            <div class="col-lg-3">
+                <div class="settings-nav card">
+                    <div class="list-group list-group-flush" id="settings-tabs" role="tablist">
+                        <a class="list-group-item active" data-bs-toggle="list" href="#profile" role="tab">
+                            <i class="fas fa-user-circle me-2"></i> Profile
+                        </a>
+                        <a class="list-group-item" data-bs-toggle="list" href="#security" role="tab">
+                            <i class="fas fa-shield-alt me-2"></i> Security
+                        </a>
+                        <a class="list-group-item" data-bs-toggle="list" href="#data" role="tab">
+                            <i class="fas fa-database me-2"></i> Data Management
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content Area -->
+            <div class="col-lg-9">
+                <div class="tab-content">
+                    <!-- Profile Section -->
+                    <div class="tab-pane fade show active" id="profile">
+                        <div class="card settings-card">
+                            <div class="card-body">
+                                <div class="profile-header">
+                                    <div class="profile-avatar">
+                                        <div class="avatar-circle">
+                                            {{ user.first_name[0]|upper }}{{ user.last_name[0]|upper }}
+                                        </div>
+                                    </div>
+                                    <div class="profile-info">
+                                        <h3>{{ user.first_name|capitalize }} {{ user.last_name|capitalize }}</h3>
+                                        <p class="text-muted">{{ user.email }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <form action="{{ url_for('update_profile') }}" method="POST">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="first_name" name="first_name" 
+                                                       value="{{ user.first_name }}" required>
+                                                <label for="first_name">First Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="last_name" name="last_name" 
+                                                       value="{{ user.last_name }}" required>
+                                                <label for="last_name">Last Name</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                               value="{{ user.email }}" required>
+                                        <label for="email">Email Address</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-save me-2"></i> Save Changes
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Section -->
+                    <div class="tab-pane fade" id="security">
+                        <div class="card settings-card">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Change Password</h4>
+                                <form action="{{ url_for('update_password') }}" method="POST" id="passwordForm">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" id="current_password" 
+                                               name="current_password" required>
+                                        <label for="current_password">Current Password</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" id="new_password" 
+                                               name="new_password" required>
+                                        <label for="new_password">New Password</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control" id="confirm_password" 
+                                               name="confirm_password" required>
+                                        <label for="confirm_password">Confirm New Password</label>
+                                    </div>
+                                    <div class="password-strength mb-4">
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar"></div>
+                                        </div>
+                                        <div class="requirements mt-2">
+                                            <span class="requirement" id="length">
+                                                <i class="fas fa-circle"></i> 8+ characters
+                                            </span>
+                                            <span class="requirement" id="uppercase">
+                                                <i class="fas fa-circle"></i> Uppercase
+                                            </span>
+                                            <span class="requirement" id="lowercase">
+                                                <i class="fas fa-circle"></i> Lowercase
+                                            </span>
+                                            <span class="requirement" id="number">
+                                                <i class="fas fa-circle"></i> Number
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-key me-2"></i> Update Password
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Management Section -->
+                    <div class="tab-pane fade" id="data">
+                        <div class="row g-4">
+                            <!-- Data Stats -->
+                            <div class="col-12">
+                                <div class="card settings-card">
+                                    <div class="card-body">
+                                        <div class="row text-center">
+                                            <div class="col-md-6">
+                                                <h3 class="mb-0">{{ stats.total_transactions }}</h3>
+                                                <p class="text-muted">Total Transactions</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h3 class="mb-0">{{ stats.total_categories }}</h3>
+                                                <p class="text-muted">Categories</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Export Data -->
+                            <div class="col-md-6">
+                                <div class="card settings-card h-100">
+                                    <div class="card-body">
+                                        <div class="feature-icon bg-primary bg-gradient">
+                                            <i class="fas fa-file-export"></i>
+                                        </div>
+                                        <h4>Export Data</h4>
+                                        <p class="text-muted">Download your complete transaction history</p>
+                                        <a href="{{ url_for('export_transactions_csv') }}" class="btn btn-primary btn-lg w-100">
+                                            <i class="fas fa-download me-2"></i> Export to CSV
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Import Data -->
+                            <div class="col-md-6">
+                                <div class="card settings-card h-100">
+                                    <div class="card-body">
+                                        <div class="feature-icon bg-success bg-gradient">
+                                            <i class="fas fa-file-import"></i>
+                                        </div>
+                                        <h4>Import Data</h4>
+                                        <p class="text-muted">Import transactions from a CSV file</p>
+                                        <form action="{{ url_for('account_settings') }}" method="POST" enctype="multipart/form-data">
+                                            <div class="custom-file-upload mb-3">
+                                                <input type="file" class="form-control" name="file" accept=".csv" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-success btn-lg w-100">
+                                                <i class="fas fa-upload me-2"></i> Import Data
+                                            </button>
+                                        </form>
+                                        <div class="mt-2">
+                                            <small class="text-muted">
+                                                <i class="fas fa-info-circle"></i> 
+                                                Required columns: date, amount, type, category, description
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reset Data -->
+                            <div class="col-12">
+                                <div class="card settings-card border-danger">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="feature-icon bg-danger bg-gradient me-3">
+                                                <i class="fas fa-exclamation-triangle"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-danger mb-1">Danger Zone</h4>
+                                                <p class="text-muted mb-0">Permanently delete all your data</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <p class="text-danger">This action cannot be undone. Please be certain.</p>
+                                        <form action="{{ url_for('reset_data') }}" method="POST" onsubmit="return confirmReset()">
+                                            <button type="submit" class="btn btn-outline-danger btn-lg">
+                                                <i class="fas fa-trash-alt me-2"></i> Reset All Data
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

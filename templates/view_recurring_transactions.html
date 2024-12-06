@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Recurring Transactions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Recurring Transactions</h1>
+        
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Frequency</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rt in recurring_transactions %}
+                <tr>
+                    <td>{{ rt["Date"] }}</td>
+                    <td>{{ rt["Type"] }}</td>
+                    <td>{{ rt["Category"] }}</td>
+                    <td>{{ rt["Amount"] }}</td>
+                    <td>{{ rt["Description"] }}</td>
+                    <td>{{ rt["Frequency"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>

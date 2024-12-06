@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Budget App{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Settings</h1>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Account Statistics -->
+    <div class="settings-section">
+        <h3>Account Statistics</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <h5>Total Transactions</h5>
+                    <p class="h3">{{ stats.total_transactions }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <h5>Total Categories</h5>
+                    <p class="h3">{{ stats.total_categories }}</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stats-card">
+                    <h5>Budget Goals</h5>
+                    <p class="h3">{{ stats.total_budget_goals }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Management -->
+    <div class="settings-section">
+        <h3>Data Management</h3>
+        
+        <!-- Export Section -->
+        <div class="mb-4">
+            <h5>Export Data</h5>
+            <div class="d-flex gap-2">
+                <a href="{{ url_for('export_transactions_csv') }}" class="btn btn-primary">
+                    <i class="fas fa-file-csv"></i> Export Transactions (CSV)
+                </a>
+            </div>
+        </div>
+
+        <!-- Import Section -->
+        <div class="mb-4">
+            <h5>Import Transactions</h5>
+            <form action="{{ url_for('import_transactions_csv') }}" method="POST" enctype="multipart/form-data">
+                <div class="input-group">
+                    <input type="file" class="form-control" name="file" accept=".csv" required>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Import CSV
+                    </button>
+                </div>
+                <small class="text-muted">Only .csv files are supported. Format: date, amount, type, category, description</small>
+            </form>
+        </div>
+        
+        <!-- Reset Data Section -->
+        <div class="mb-4">
+            <h5 class="text-danger">Reset Data</h5>
+            <form action="{{ url_for('reset_data') }}" method="POST" onsubmit="return confirmReset()">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Reset All Data
+                </button>
+            </form>
+        </div>
+        
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Management -->
+    <div class="settings-section">
+        <h3>Categories Management</h3>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Category Name</th>
+                        <th>Type</th>
+                        <th>Transaction Count</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.type }}</td>
+                        <td>{{ category.transaction_count }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editCategoryModal{{ category.id }}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal{{ category.id }}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show mt-3" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
+<!-- Reset Confirmation Script -->
+<script>
+function confirmReset() {
+    return confirm('Are you sure you want to reset all your transaction data? This action cannot be undone!');
+}
+</script>
+
+{% block extra_css %}
+<style>
+.settings-section {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stats-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    height: 100%;
+}
+
+.table th {
+    background-color: #f8f9fa;
+}
+</style>
+{% endblock %}
+{% endblock %}

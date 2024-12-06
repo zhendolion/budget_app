@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Budget Goals</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>View Budget Goals</h1>
+        
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Budget</th>
+                    <th>Spent</th>
+                    <th>Remaining</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category, budget in budget_goals.items() %}
+                <tr>
+                    <td>{{ category }}</td>
+                    <td>{{ budget }}</td>
+                    <td>{{ spending_summary[category] if category in spending_summary else 0 }}</td>
+                    <td>{{ budget - spending_summary[category] if category in spending_summary else budget }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ url_for('home') }}" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>

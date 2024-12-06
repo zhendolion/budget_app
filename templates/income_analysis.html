@@ -1,0 +1,108 @@
+<!-- templates/income_analysis.html -->
+{% extends "base.html" %}
+
+{% block title %}Income Analysis{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/analysis.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="analysis-container">
+    <h2 class="mb-4">Income Analysis</h2>
+
+    <!-- Time Period Selection -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label for="period" class="form-label">Time Period</label>
+                    <select class="form-select" id="period" name="period">
+                        <option value="month" {% if period == 'month' %}selected{% endif %}>This Month</option>
+                        <option value="quarter" {% if period == 'quarter' %}selected{% endif %}>This Quarter</option>
+                        <option value="year" {% if period == 'year' %}selected{% endif %}>This Year</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Update Analysis</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Summary Statistics -->
+    <div class="statistics-grid mb-4">
+        <div class="statistic-card">
+            <h5>Total Income</h5>
+            <div class="amount">{{ format_currency(total_income) }}</div>
+        </div>
+        <div class="statistic-card">
+            <h5>Average Monthly Income</h5>
+            <div class="amount">{{ format_currency(average_monthly) }}</div>
+        </div>
+        <div class="statistic-card">
+            <h5>Highest Income</h5>
+            <div class="amount">{{ format_currency(highest_income) }}</div>
+        </div>
+        <div class="statistic-card">
+            <h5>Main Income Source</h5>
+            <div class="value">{{ main_source }}</div>
+        </div>
+    </div>
+
+    <!-- Income Charts -->
+    <div class="row">
+        <!-- Source Distribution -->
+        <div class="col-md-6 mb-4">
+            <div class="chart-container">
+                <h5>Income Distribution by Source</h5>
+                <canvas id="sourceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Monthly Trend -->
+        <div class="col-md-6 mb-4">
+            <div class="chart-container">
+                <h5>Monthly Income Trend</h5>
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Income History -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Income History</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Source</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for income in income_history %}
+                        <tr>
+                            <td>{{ income.date.strftime('%Y-%m-%d') }}</td>
+                            <td>{{ income.category }}</td>
+                            <td>{{ income.description }}</td>
+                            <td class="text-success">{{ format_currency(income.amount) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/income_analysis.js') }}"></script>
+{% endblock %}

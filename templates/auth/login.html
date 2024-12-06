@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome to Budget Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row align-items-center min-vh-100 py-5">
+        <!-- Welcome Content -->
+        <div class="col-lg-7 pe-lg-5 mb-5 mb-lg-0">
+            <div class="welcome-content">
+                <h1 class="display-4 mb-4 text-primary fw-bold">Welcome to Budget Tracker</h1>
+                <p class="lead mb-4">Take control of your finances with our powerful budgeting tools</p>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                        <h5>Track Expenses</h5>
+                        <p class="text-muted">Monitor your spending habits with detailed insights</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-piggy-bank fa-2x text-success mb-3"></i>
+                        <h5>Save Money</h5>
+                        <p class="text-muted">Set and achieve your savings goals</p>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-clock fa-2x text-info mb-3"></i>
+                        <h5>Recurring Transactions</h5>
+                        <p class="text-muted">Automate your regular income and expenses</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="col-lg-5">
+            <div class="card shadow-lg">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Login</h2>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form method="POST" action="{{ url_for('auth_login') }}">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                            <label class="form-check-label" for="remember">Remember me</label>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                            <a href="{{ url_for('auth_register') }}" class="btn btn-outline-secondary">Create new account</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+.min-vh-100 {
+    min-height: 100vh;
+}
+
+.welcome-content {
+    animation: fadeInLeft 0.8s ease-out;
+}
+
+.card {
+    animation: fadeInRight 0.8s ease-out;
+    border: none;
+    border-radius: 15px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-item {
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.btn {
+    padding: 0.8rem;
+    font-weight: 500;
+    border-radius: 8px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #2196F3, #1976D2);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #1976D2, #1565C0);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(33, 150, 243, 0.2);
+}
+
+.form-control {
+    padding: 0.8rem;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .welcome-content {
+        text-align: center;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .feature-item {
+        padding: 1rem;
+    }
+}
+
+/* Optional: Add a subtle gradient background to the page */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+</style>
+{% endblock %}
