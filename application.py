@@ -473,8 +473,12 @@ def utility_processor():
 
 # Routes
 
+app = Flask(__name__)
+logging.basicConfig(level=logging.DEBUG)
+
 @app.route('/health')
 def health_check():
+    app.logger.info("Health check endpoint hit")
     return 'OK', 200
 
 @app.route('/')
