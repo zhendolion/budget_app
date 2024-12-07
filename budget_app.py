@@ -472,6 +472,11 @@ def utility_processor():
 
 
 # Routes
+
+@app.route('/health')
+def health_check():
+    return 'OK', 200
+
 @app.route('/')
 @login_required
 def home():
